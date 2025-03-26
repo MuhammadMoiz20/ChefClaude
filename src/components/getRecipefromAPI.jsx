@@ -56,7 +56,7 @@ export async function getRecipeFromMistral(ingredientsArr) {
         return recipeText;
     } catch (error) {
         console.error("Error fetching recipe:", error);
-        return `Sorry, I couldn't generate a recipe at this time. Error: ${error.message}`;
+        return "Sorry, I couldn't generate a recipe at this time.";
     }
 }
 
