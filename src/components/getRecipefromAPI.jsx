@@ -6,33 +6,57 @@ You are an assistant that receives a list of ingredients that a user has and sug
 
 export async function getRecipeFromMistral(ingredientsArr) {
     const ingredientsString = ingredientsArr.join(", ")
-    const API_URL = "https://api-inference.huggingface.co/v1/chat/completions";
-
+    
+    // Correct Gemini API endpoint for the latest version
+    const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent";
+    
+    // Get the API key from environment variable
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+    
     try {
-        const response = await fetch(API_URL, {
+        console.log("Ingredients:", ingredientsString);
+        console.log("Using Gemini API");
+        
+        // Format the prompt for Gemini
+        const prompt = `You are a helpful cooking assistant. Create a recipe using some or all of these ingredients: ${ingredientsString}. Format your response in markdown with a title, ingredients list, and step-by-step instructions.`;
+        
+        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
             method: "POST",
             headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_HF_ACCESS_TOKEN}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-                messages: [
-                    { role: "system", content: SYSTEM_PROMPT },
-                    { role: "user", content: `I have ${ingredientsString}. Please give me a recipe you'd recommend I make!` },
-                ],
-                max_tokens: 1024,
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 1024,
+                }
             }),
         });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`API responded with status ${response.status}: ${errorText}`);
+        }
 
         const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
+        
+        // Check if the response has the expected structure
+        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+            console.error("Unexpected API response format:", data);
+            throw new Error("Received unexpected response format from API");
         }
-        return data.choices[0].message.content;
+        
+        // Extract the recipe text from Gemini's response
+        const recipeText = data.candidates[0].content.parts[0].text;
+        return recipeText;
     } catch (error) {
         console.error("Error fetching recipe:", error);
-        return "Sorry, I couldn't generate a recipe at this time. Please try again later.";
+        return `Sorry, I couldn't generate a recipe at this time. Error: ${error.message}`;
     }
 }
 
