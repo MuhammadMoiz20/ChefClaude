@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Recipe from "./recipe";
+import Recipe from "./Recipe";
 import IngList from "./IngredientList";
 import GetRecipe from "./getRecipefromAPI";
 import { getRecipeFromMistral } from "./getRecipefromAPI";
