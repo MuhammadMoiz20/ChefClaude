@@ -6,12 +6,14 @@ body{
   margin: 0;
   font-family: Inter, sans-serif;
   background-color: #f8f8f8;
+  overflow-x: hidden;
 }
 
 header{
   display: flex;
   justify-content: center;
-  /* margin: 0px 0px 0px 100px; */
+  align-items: center;
+  padding: 10px;
   background-color: #efededcb;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 }
@@ -24,24 +26,38 @@ header{
 .HeaderTitle{
   margin-left: 10px;
   font-weight: 100;
+  font-size: clamp(1.5rem, 5vw, 2rem);
 }
 
 .input{
   display: flex;
-  margin: 50px 0px 0px 0px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0px 0px 0px;
+  justify-content: center;
 }
 
 .button {
-  margin-left: 10px;
+  margin: 5px;
   background-color: black;
   color: white;
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 12px 16px;
+  font-size: 14px;
   font-weight: 200;
   border: none;
   border-radius: 6px; /* Slightly rounded corners */
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .button {
+    padding: 12px 24px;
+    font-size: 16px;
+    margin-left: 10px;
+  }
 }
 
 .button:hover {
@@ -61,6 +77,19 @@ header{
   color: white;
 }
 
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .button-container {
+    flex-wrap: nowrap;
+  }
+}
+
 
 .InputField{
   width: 100%;
@@ -71,6 +100,7 @@ header{
   border-radius: 8px;
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
+  flex: 1 1 200px;
 }
 
 input[type="text"]:focus {
@@ -79,13 +109,22 @@ input[type="text"]:focus {
 }
 
 .ingredientList{
-  margin: 40px 0px 40px 0px;
+  margin: 20px 0px 20px 0px;
   font-weight: 600;
   list-style: number;
+  padding-left: 25px;
+}
+
+@media (min-width: 768px) {
+  .ingredientList {
+    margin: 40px 0px 40px 0px;
+    padding-left: 40px;
+  }
 }
 
 .ingredientListItem{
   padding-bottom: 10px;
+  word-break: break-word;
 }
 
 
@@ -93,10 +132,21 @@ input[type="text"]:focus {
   padding: 22px;
   background-color: rgb(226, 224, 221);
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 650px;
+  width: 100%;
+  max-width: 650px;
   border-radius: 6px;
+  gap: 15px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .horizontal_flex {
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }
 
 .vertical_flex{
@@ -105,25 +155,68 @@ input[type="text"]:focus {
 }
 
 .get_recipe{
-  margin-left: 100px;
+  margin: 10px 0;
   max-height: fit-content;
   background-color: rgb(208, 156, 35);
+  width: 100%;
+  max-width: 250px;
+}
+
+@media (min-width: 768px) {
+  .get_recipe {
+    margin-left: 20px;
+    width: auto;
+  }
 }
 
 .list_section {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.listHeader {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .listHeader {
+    font-size: 1.5rem;
+    text-align: left;
+  }
 }
 
 main {
-  padding: 30px 30px 10px;
+  padding: 15px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 30px 30px 10px;
+    max-width: 90%;
+  }
 }
 
 .suggested-recipe-container {
   color: #475467;
-  line-height: 28px;
-  font-size: 1.125rem;
+  line-height: 1.6;
+  font-size: 1rem;
   font-weight: 400;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+@media (min-width: 768px) {
+  .suggested-recipe-container {
+    font-size: 1.125rem;
+    line-height: 28px;
+  }
 }
 
 .suggested-recipe-container ul li, .suggested-recipe-container ol li {
@@ -170,5 +263,34 @@ main {
   }
   100% {
     left: 100%;
+  }
+}
+
+/* Recipe section styles */
+.recipe-section {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.recipe-title {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+@media (min-width: 768px) {
+  .recipe-section {
+    padding: 25px;
+    margin-top: 30px;
+  }
+  
+  .recipe-title {
+    font-size: 1.5rem;
+    text-align: left;
   }
 }

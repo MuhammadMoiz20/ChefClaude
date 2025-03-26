@@ -62,13 +62,16 @@ export default function SearchBox() {
           placeholder="e.g. Oregano"
           className="InputField"
           name="Ingredient"
+          aria-label="Enter ingredient"
         />
-        <button className="button" type="submit">
-          + Add Ingredient
-        </button>
-        <button type="button" onClick={deleteItem} className="button delete">
-          - Delete Ingredient
-        </button>
+        <div className="button-container">
+          <button className="button" type="submit">
+            + Add
+          </button>
+          <button type="button" onClick={deleteItem} className="button delete">
+            - Delete
+          </button>
+        </div>
       </form>
 
       {ingredientList.length > 0 && <IngList NewIngredientList={mappedIngredients} />}
