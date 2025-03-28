@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Recipe from "./Recipe";
 import IngList from "./IngredientList";
 import GetRecipe from "./getRecipefromAPI";
@@ -9,6 +9,19 @@ export default function SearchBox() {
   const [ingredientList, setIngredientList] = useState([]);
   const [recipeMarkdown, setRecipeMarkdown] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const scroll = useRef(null)
+
+  useEffect(() => {
+    if (recipeMarkdown && scroll.current) {
+      setTimeout(() => {
+        scroll.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // small delay to wait for render
+    }
+  }, [recipeMarkdown]);
+  
 
   // Handles form submission to add an ingredient
   const handleSubmit = (e) => {
@@ -75,7 +88,7 @@ export default function SearchBox() {
       </form>
 
       {ingredientList.length > 0 && <IngList NewIngredientList={mappedIngredients} />}
-      {ingredientList.length >= 4 && <GetRecipe handleRecipe={handleGetRecipe} />}
+      {ingredientList.length >= 4 && <GetRecipe ref={scroll} handleRecipe={handleGetRecipe} />}
       
       {isLoading && (
         <div className="loading-container">

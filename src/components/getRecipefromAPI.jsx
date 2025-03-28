@@ -13,10 +13,7 @@ export async function getRecipeFromMistral(ingredientsArr) {
     // Get the API key from environment variable
     const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
     
-    try {
-        console.log("Ingredients:", ingredientsString);
-        console.log("Using Gemini API");
-        
+    try {        
         // Format the prompt for Gemini
         const prompt = `You are a helpful cooking assistant. Create a recipe using some or all of these ingredients: ${ingredientsString}. Format your response in markdown with a title, ingredients list, and step-by-step instructions.`;
         
@@ -60,9 +57,9 @@ export async function getRecipeFromMistral(ingredientsArr) {
     }
 }
 
-export default function GetRecipe({ handleRecipe }) {
+export default function GetRecipe({ handleRecipe, ref }) {
   return (
-    <div className="horizontal_flex">
+    <div className="horizontal_flex" ref={ref}>
       <div className="vertical_flex">
         <h3>Ready for a recipe?</h3>
         <p>Generate a recipe from your list of ingredients</p>
